@@ -8,7 +8,9 @@ import android.os.Bundle
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.videoprocessing.R
+import java.lang.Exception
 
 class MediaCodecActivity : AppCompatActivity() {
 
@@ -16,26 +18,36 @@ class MediaCodecActivity : AppCompatActivity() {
         private const val MIME_AVC = "video/avc"
     }
 
-    @RequiresApi(Build.VERSION_CODES.R)
+
+    private var mainContainer: ConstraintLayout? = null
+
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_media_codec)
 
 
-        val point = Point()
-        val display = display?.getRealSize(point)
+        mainContainer = findViewById(R.id.main_container)
 
-        //찾지를 못한다...
-//        val mediaFormat = MediaFormat.createVideoFormat(MIME_AVC, 1080, 2265)
-        val mediaFormat = MediaFormat.createVideoFormat(MIME_AVC, 1080, 2283)
-
-        val mediaCodecList = MediaCodecList(MediaCodecList.ALL_CODECS)
-        val result = mediaCodecList.findDecoderForFormat(mediaFormat)
-
-        Log.d("결과", result?:"찾을수 없다.")
-
+        mainContainer?.let {
+            it.viewTreeObserver.addOnGlobalLayoutListener {
+                Log.d("결과", "높이 : ${it.height} 폭 : ${it.width}")
+                Log.d("결과", "코덱결과 : ${mediaCodecResult(it.width, it.height)}")
+            }
+        }
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    private fun mediaCodecResult(width: Int, height: Int): String {
+        return try {
+            val mediaFormat = MediaFormat.createVideoFormat(MIME_AVC, width, height)
+            val mediaCodecList = MediaCodecList(MediaCodecList.ALL_CODECS)
+            mediaCodecList.findDecoderForFormat(mediaFormat)
+        } catch (e: Exception) {
+            throw Exception("찾을 수 없다.")
+        }
+    }
 
 }
 
