@@ -13,13 +13,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.VideoProcessing">
-        <activity android:name=".mediacodec.MediaCodecActivity">
+        <activity android:name=".mediacodec.MediaCodecMainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".mediacodec.MediaCodecSubActivity" />
     </application>
 
 </manifest>
