@@ -21,7 +21,11 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".mediacodec.MediaCodecSubActivity" />
+        <activity
+            android:name=".mediacodec.MediaCodecSubActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize|keyboard|navigation"
+            android:uiOptions="splitActionBarWhenNarrow"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
     </application>
 
 </manifest>

@@ -43,7 +43,6 @@ class MediaCodecSubActivity : AppCompatActivity() {
             val mediaCodecList = MediaCodecList(MediaCodecList.ALL_CODECS)
             mediaCodecList.findDecoderForFormat(mediaFormat)
         } catch (e: Exception) {
-            finish()
             "찾을 수 없다."
         }
     }
